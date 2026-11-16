@@ -1,5 +1,6 @@
-import { createClient } from "./src/client.ts";
-import { USER_BASE_URL, ORDER_BASE_URL } from "./mocks/handlers.ts";
+import { createClient, type CallOptions } from "./src/client.ts";
+import { USER_BASE_URL } from "./mocks/user.handlers.ts";
+import { ORDER_BASE_URL } from "./mocks/order.handlers.ts";
 import { ApiError } from "./src/ApiError.ts";
 
 // 1. 서버별 인스턴스 생성 — 서버당 하나
@@ -28,23 +29,23 @@ const orderClient = createClient({
 
 const userApi = {
   v1: {
-    getUser: (id: string, options?: RequestOptions) => userClient.get(`/v1/users/${id}`, options),
+    getUser: (id: string, options?: CallOptions) => userClient.get(`/v1/users/${id}`, options),
   },
   v2: {
-    getUser: (id: string, options?: RequestOptions) => userClient.get(`/v2/users/${id}`, options),
+    getUser: (id: string, options?: CallOptions) => userClient.get(`/v2/users/${id}`, options),
   },
 };
 
 const orderApi = {
   v1: {
-    getOrder: (id: string, options?: RequestOptions) => orderClient.get(`/v1/orders/${id}`, options),
-    getOrderList: (params: Record<string, unknown>, options?: RequestOptions) =>
+    getOrder: (id: string, options?: CallOptions) => orderClient.get(`/v1/orders/${id}`, options),
+    getOrderList: (params: Record<string, unknown>, options?: CallOptions) =>
       orderClient.get("/v1/orders", { ...options, params }),
-    createOrder: (body: Record<string, unknown>, options?: RequestOptions) =>
+    createOrder: (body: Record<string, unknown>, options?: CallOptions) =>
       orderClient.post("/v1/orders", body, options),
-    updateOrder: (id: string, body: Record<string, unknown>, options?: RequestOptions) =>
+    updateOrder: (id: string, body: Record<string, unknown>, options?: CallOptions) =>
       orderClient.put(`/v1/orders/${id}`, body, options),
-    deleteOrder: (id: string, options?: RequestOptions) => orderClient.delete(`/v1/orders/${id}`, options),
+    deleteOrder: (id: string, options?: CallOptions) => orderClient.delete(`/v1/orders/${id}`, options),
   },
 };
 
