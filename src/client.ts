@@ -1,3 +1,4 @@
+import { buildHeader } from "./request/buildHeader";
 import { buildURL } from "./request/url";
 
 export function createClient(clientOptions) {
@@ -9,6 +10,8 @@ export function createClient(clientOptions) {
       path,
       params: callOptions?.params,
     });
+
+    const signal = callOptions?.signal ?? AbortSignal.timeout(callOptions?.timeout ?? clientOptions.timeout ?? 10000);
 
     const headers = buildHeader({ authType: clientOptions.authType, authValue, customHeaders: callOptions.headers });
   }
