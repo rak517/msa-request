@@ -14,6 +14,13 @@ export function createClient(clientOptions) {
     const signal = callOptions?.signal ?? AbortSignal.timeout(callOptions?.timeout ?? clientOptions.timeout ?? 10000);
 
     const headers = buildHeader({ authType: clientOptions.authType, authValue, customHeaders: callOptions.headers });
+
+    const response = await fetch(url, {
+      method,
+      headers,
+      signal,
+      body: callOptions.body ? JSON.stringify(callOptions.body) : undefined,
+    });
   }
 
   return {

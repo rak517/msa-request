@@ -5,7 +5,8 @@ interface BuildHeaderOptions {
 }
 
 export function buildHeader({ authType, authValue, customHeaders }: BuildHeaderOptions) {
-  const authHeader = authType === "bearer" ? { Authorization: `Bearer ${authValue}` } : { "X-Api-Key": authValue };
+  const authHeader: Record<string, string> =
+    authType === "bearer" ? { Authorization: `Bearer ${authValue}` } : { "X-Api-Key": authValue };
 
   return {
     "Content-Type": "application/json",
