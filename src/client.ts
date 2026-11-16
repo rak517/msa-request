@@ -21,6 +21,9 @@ export function createClient(clientOptions) {
       signal,
       body: callOptions.body ? JSON.stringify(callOptions.body) : undefined,
     });
+
+    const text = await response.text();
+    const json = text ? JSON.parse(text) : null;
   }
 
   return {
