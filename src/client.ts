@@ -1,5 +1,13 @@
+import { buildURL } from "./request/url";
+
 export function createClient(clientOptions) {
-  async function request(method, path, callOptions) {}
+  async function request(method, path, callOptions) {
+    const url = buildURL({
+      baseURL: clientOptions.baseURL,
+      path,
+      params: callOptions?.params,
+    });
+  }
 
   return {
     get: (path, callOptions) => request("GET", path, callOptions),
