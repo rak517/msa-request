@@ -1,3 +1,4 @@
+import { ApiError } from "./ApiError";
 import { buildHeader } from "./request/buildHeader";
 import { buildURL } from "./request/url";
 
@@ -13,17 +14,24 @@ export function createClient(clientOptions) {
 
     const signal = callOptions?.signal ?? AbortSignal.timeout(callOptions?.timeout ?? clientOptions.timeout ?? 10000);
 
-    const headers = buildHeader({ authType: clientOptions.authType, authValue, customHeaders: callOptions.headers });
+    const headers = buildHeader({ authType: clientOptions.authType, authValue, customHeaders: callOptions?.headers });
 
     const response = await fetch(url, {
       method,
       headers,
       signal,
-      body: callOptions.body ? JSON.stringify(callOptions.body) : undefined,
+      body: callOptions.body ? JSON.stringify(callOptions?.body) : undefined,
     });
 
     const text = await response.text();
     const json = text ? JSON.parse(text) : null;
+
+    if (response.ok) {
+      return clientOptions.unwrapData(json);
+    } else {
+      const message = clientOptions.unwrapError(json);
+      throw new ApiError(message, response.status);
+    }
   }
 
   return {

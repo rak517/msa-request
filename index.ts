@@ -1,5 +1,6 @@
 import { createClient } from "./src/client.ts";
 import { USER_BASE_URL, ORDER_BASE_URL } from "./mocks/handlers.ts";
+import { ApiError } from "./src/ApiError.ts";
 
 // 1. 서버별 인스턴스 생성 — 서버당 하나
 // 서버마다 baseURL, 인증 방식, 응답/에러 파싱, 타임아웃이 다름.
