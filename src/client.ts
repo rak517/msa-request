@@ -50,7 +50,7 @@ export function createClient(clientOptions: ClientOptions) {
     const json = text ? JSON.parse(text) : null;
 
     if (response.ok) {
-      return clientOptions.unwrapData(json);
+      return json ? clientOptions.unwrapData(json) : null;
     } else {
       const message = clientOptions.unwrapError(json);
       throw new ApiError(message, response.status);
